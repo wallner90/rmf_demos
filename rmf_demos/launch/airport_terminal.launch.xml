@@ -12,6 +12,23 @@
     <arg name="dashboard_config_file" value="$(find-pkg-share rmf_demos_dashboard_resources)/airport_terminal/dashboard_config.json"/>
   </include>
 
+  <!-- Add links for lidar and camera (hack, as SDF does not allow fixed joints) -->
+  <node pkg="tf2_ros" exec="static_transform_publisher" name="chassis_to_range_link" args="0 0 0 0 0 0 chassis range_link">
+    <param name="use_sim_time" value="$(var use_sim_time)"/>
+  </node>
+  <node pkg="tf2_ros" exec="static_transform_publisher" name="chassis_to_camera_link" args="0 0 0 0 0 0 chassis camera_link">
+      <param name="use_sim_time" value="$(var use_sim_time)"/>
+  </node>
+
+  <!-- Temporary as long caddy is not localized by other algorithm -->
+  <!-- <node pkg="tf2_ros" exec="static_transform_publisher" name="fake_caddy_localizer_odom_map" args="0 0 0 0 0 0 map odom">
+      <param name="use_sim_time" value="$(var use_sim_time)"/>
+  </node>
+  <node pkg="tf2_ros" exec="static_transform_publisher" name="fake_caddy_localizer_map_world" args="0 0 0 0 0 0 world map">
+      <param name="use_sim_time" value="$(var use_sim_time)"/>
+  </node> -->
+
+
   <!-- TinyRobot fleet adapter -->
   <group>
     <include file="$(find-pkg-share rmf_demos_fleet_adapter)/launch/fleet_adapter.launch.xml">
